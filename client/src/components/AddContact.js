@@ -1,78 +1,101 @@
-import React, {useState} from 'react'
-import { addContact } from '../server/api'
-
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { addContactAsync } from "../contacts/contactsSlice";
 
 const defaultValue = {
-  name: '',
-  lastname: '',
-  email: '',
-  phone : '',
-  date: ''
-}
+  name: "",
+  lastName: "",
+  email: "",
+  phoneNumber: "",
+  birthDate: "",
+};
 
 const AddContact = () => {
- 
- const [contacts, setContacts] = useState(defaultValue)
- const { name, lastname, email, phone, date } = contacts;
+ const [contact, setContact] = useState(defaultValue);
+ const [error, setError]= useState('');
+ const [status, setStatus] = useState("idle");
+  const { name, lastName, email, phoneNumber, birthDate } = contact;
+
+  const dispatch = useDispatch()
 
 
- const onValueChange= (e) => {
-    console.log(e.target.name + e.target.value)
-    setContacts({...contacts, [e.target.name ] : e.target.value})
-    console.log(contacts)
- }
+  const handleInputChange= (e)=> {
+     let {name, value }= e.target;
+     setContact({...contact , [name]: value})
+  }
+  
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if( !name || !lastName || !email  || !phoneNumber || !birthDate) {
+    setError('All inputs are required ! ');
+    return;
+  }
+
+  try {
+
+    setStatus("loading")
+    setError('')
+    await dispatch (addContactAsync(contact))
+  
+    setStatus("fulfilled")
+  
+  } catch(error) {
+    setStatus("rejected")
+    setError(error.message);
+  }
 
 
- const addContactDetail = async () => {
-   await addContact(contacts)
- }
+  }
+  
 
   return (
     <div>
       <nav className="navbar kanit">
         <div className="logo">Contact App</div>
-        
       </nav>
       <br></br>
-      <section class="contact">
-      <div class="headings">
-        
-        <div class="divider">
-          <div class="darkline"></div>
-          <div><i class="fa fa-star fa-star-dark" aria-hidden="true"></i></div>
-          <div class="darkline"></div>
+      <section className="contact">
+        <div className="headings">
+          <div className="divider">
+            <div className="darkline"></div>
+            <div>
+              <i className="fa fa-star fa-star-dark" aria-hidden="true"></i>
+            </div>
+            <div className="darkline"></div>
+          </div>
         </div>
-      </div>
-      <form>
-        <label for="name">
-          <input type="text" id="name" placeholder="Name" required />
-          <span >Name</span>
-        </label>
-        <label for="lastname">
-          <input type="text" id="lastname" placeholder="lastname" required />
-          <span>Last name</span>
-        </label>
-        <label for="email">
-          <input type="email" id="email" placeholder="Email" required />
-          <span>Email addres </span>
-        </label>
-        <label for="phone">
-          <input type="text" id="phone" placeholder="Phone" required />
-          <span>Birth Date</span>
-        </label>
-        <label for="phone">
-          <input type="text" id="phone" placeholder="Phone" required />
-          <span>Phone number</span>
-        </label>
-
-       
-        <button type="submit">Save</button>
-      </form>
-    </section>
 
 
+        {error && <h3>{error}</h3>}
+
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="name">
+            <input type="text" id="name" placeholder="Name" value={name} name='name' onChange={handleInputChange} required />
+            <span>Name</span>
+          </label>
+          <label htmlFor="lastName">
+            <input type="text" id="lastName" placeholder="lastName" name='lastName' onChange={handleInputChange} value={lastName} required />
+            <span>Last name</span>
+
+          </label>
+          <label htmlFor="email">
+            <input type="email" id="email" placeholder="Email" onChange={handleInputChange}  value={email} name='email'  required />
+            <span>Email addres </span>
+          </label>
+          <label htmlFor="phoneNumber">
+            <input type="text" id="phoneNumber" placeholder="phoneNumber" onChange={handleInputChange} value={birthDate}  name='birthDate' required />
+            <span>Birth Date</span>
+          </label>
+          <label htmlFor="phoneNumber">
+            <input type="text" id="phoneNumber" placeholder="phoneNumber" onChange={handleInputChange}  value={phoneNumber}  name='phoneNumber' required />
+            <span>phoneNumber number</span>
+          </label>
+          <button type="submit" disabled={status === "loading"}>Save</button>
+        </form>
+      </section>
     </div>
-  )
-}
+  );
+};
 
-export default AddContact
+export default AddContact;
