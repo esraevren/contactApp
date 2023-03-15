@@ -13,6 +13,7 @@ const defaultValue = {
 const AddContact = () => {
  
  const [contacts, setContacts] = useState(defaultValue)
+ const { name, lastname, email, phone, date } = contacts;
 
 
  const onValueChange= (e) => {
@@ -31,19 +32,19 @@ const AddContact = () => {
       <br></br>
      <form>
       <label>AD</label>
-      <input onChange={(e)=>onValueChange(e)} name='name'/>
+      <input onChange={(e)=>onValueChange(e)} name='name' value={name}/>
       <br></br>
       <label>SOYAD</label>
-      <input onChange={(e)=>onValueChange(e)}  name='lastname'/>
+      <input onChange={(e)=>onValueChange(e)}  name='lastname' value={lastname}/>
       <br></br>
       <label>EMAİL</label>
-      <input onChange={(e)=>onValueChange(e)} name='email' />
+      <input onChange={(e)=>onValueChange(e)} name='email' value={email} />
       <br></br>
       <label>TELEFON</label>
-      <input onChange={(e)=>onValueChange(e)} name='phone' />
+      <input onChange={(e)=>onValueChange(e)} name='phone' value={phone} />
       <br></br>
       <label>DOĞUM TARİHİ </label>
-      <input  onChange={(e)=>onValueChange(e)} name='date'  />
+      <input  onChange={(e)=>onValueChange(e)} name='date' value={date} />
       <br></br>
       <button onClick={()=>addContactDetail()}>SAVE</button>
      </form>

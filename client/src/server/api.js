@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const URL= ''
+const URL= 'http://localhost:8000/api/contacts'
 
 
 export const addContact = async (data) => {
@@ -8,5 +8,14 @@ export const addContact = async (data) => {
     return await axios.post(`${URL}/add`, data )
   }catch(error) {
     console.log('Error adding contact'+ error)
+  }
+}
+
+
+export const getContacts = async () => {
+  try {
+    return await axios.get(`${URL}`)
+  }catch(error) {
+   console.log('Error ', error)
   }
 }
