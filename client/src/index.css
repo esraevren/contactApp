@@ -74,3 +74,77 @@ li.mobile-nav {
   margin-top: 5.5rem;
   display: flex;
 }
+
+
+form {
+  margin: auto;
+  width: 90vw;
+  max-width: 768px;
+  padding: 3vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+
+form > button {
+  background-color: #1cbb9c;
+  color: #fff;
+  padding: 3%;
+  border-radius: 10px;
+  border: none;
+  margin-inline-end: auto;
+  margin-top: 10px;
+  font-size: large;
+}
+
+label {
+  width: 100%;
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+  position: relative;
+  color: #293446;
+  font-size: 25px;
+  opacity: 0.8;
+  border-bottom: 1px solid gray;
+}
+input {
+  height: 30px;
+  font-size: larger;
+  width: 100%;
+  padding: 10px 0px;
+  margin-top: 20px;
+  border: none;
+  outline: none;
+}
+input::placeholder {
+  opacity: 0;
+}
+span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateY(30px);
+  font-size: 0.825em;
+  transition-duration: 300ms;
+}
+label.message {
+  margin-top: 10px;
+  border: none;
+}
+label > textarea {
+  width: 100%;
+  border: none;
+  font-size: larger;
+  
+  font-family: "Montserrat", "sans-serif", "Lato";
+  margin-top: 30px;
+}
+
+label:focus-within > span,
+input:not(:placeholder-shown) + span {
+  font-size: small;
+  transform: translateY(-25px);
+}
+

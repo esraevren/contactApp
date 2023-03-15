@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { getContacts } from "../server/api";
 import DataTable from 'react-data-table-component'
 import { Button } from 'react-bootstrap';
+import { Link } from "react-router-dom";
 
 const AllContacts = () => {
   const [contacts, setContacts] = useState([]);
@@ -91,7 +92,7 @@ const AllContacts = () => {
      
 
       <section className="container">
-       
+      <Link to="/add" className="btn btn-primary">Add Contact</Link>
 
         <DataTable columns={columns}
           data={contacts}

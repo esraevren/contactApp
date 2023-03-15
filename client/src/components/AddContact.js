@@ -28,26 +28,47 @@ const AddContact = () => {
  }
 
   return (
-    <div>Add Contact
+    <div>
+      <nav className="navbar kanit">
+        <div className="logo">Contact App</div>
+        
+      </nav>
       <br></br>
-     <form>
-      <label>AD</label>
-      <input onChange={(e)=>onValueChange(e)} name='name' value={name}/>
-      <br></br>
-      <label>SOYAD</label>
-      <input onChange={(e)=>onValueChange(e)}  name='lastname' value={lastname}/>
-      <br></br>
-      <label>EMAİL</label>
-      <input onChange={(e)=>onValueChange(e)} name='email' value={email} />
-      <br></br>
-      <label>TELEFON</label>
-      <input onChange={(e)=>onValueChange(e)} name='phone' value={phone} />
-      <br></br>
-      <label>DOĞUM TARİHİ </label>
-      <input  onChange={(e)=>onValueChange(e)} name='date' value={date} />
-      <br></br>
-      <button onClick={()=>addContactDetail()}>SAVE</button>
-     </form>
+      <section class="contact">
+      <div class="headings">
+        
+        <div class="divider">
+          <div class="darkline"></div>
+          <div><i class="fa fa-star fa-star-dark" aria-hidden="true"></i></div>
+          <div class="darkline"></div>
+        </div>
+      </div>
+      <form>
+        <label for="name">
+          <input type="text" id="name" placeholder="Name" required />
+          <span >Name</span>
+        </label>
+        <label for="lastname">
+          <input type="text" id="lastname" placeholder="lastname" required />
+          <span>Last name</span>
+        </label>
+        <label for="email">
+          <input type="email" id="email" placeholder="Email" required />
+          <span>Email addres </span>
+        </label>
+        <label for="phone">
+          <input type="text" id="phone" placeholder="Phone" required />
+          <span>Birth Date</span>
+        </label>
+        <label for="phone">
+          <input type="text" id="phone" placeholder="Phone" required />
+          <span>Phone number</span>
+        </label>
+
+       
+        <button type="submit">Save</button>
+      </form>
+    </section>
 
 
     </div>

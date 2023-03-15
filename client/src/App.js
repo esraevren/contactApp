@@ -9,9 +9,9 @@ function App() {
   return (
     <>
   
-      <AllContacts />
+      
       <Routes>
-        {/* <Route path="/api/contacts" element={<AllContacts/>} />  */}
+        <Route path="/" element={<AllContacts/>} />  
        <Route path="/add"  element={<AddContact />}  />
 
       </Routes>
