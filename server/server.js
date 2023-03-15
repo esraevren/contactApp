@@ -14,13 +14,6 @@ app.use(errorHandler)
 
 
 
-// //mongodb connection
-// mongoose
-//   .connect(process.env.MONGODB_URI)
-//   .then(() => {
-//     console.log("connected to mongodb");
-//   })
-//   .catch((error) => console.log(error));
 
 app.listen(8000, () => {
   console.log(`Server is running on port http://localhost:${8000}`);

@@ -7,8 +7,6 @@ const getContacts = asyncHandler(async (req, res) => {
   res.status(200).json(contacts);
 });
 
-
-
 //@route POST /api/contacts
 const createContact = asyncHandler(async (req, res) => {
   console.log("req of body", req.body);
@@ -58,14 +56,18 @@ const updateContact = asyncHandler(async (req, res) => {
 
 
 //@route DELETE /api/contacts/:id
-const deleteContact = asyncHandler(async (req, res) => {
-  const contact = await Contact.findById(req.params.id);
+const deleteContact = asyncHandler (async (req, res) => {
+  const id = req.params.id;
+
+  const contact = await Contact.findById(id);
+
   if (!contact) {
-    res.status(404);
-    throw new Error("Contact not found");
+    res.status(404).send();
   }
-  await Contact.remove();
-  res.status(200).json(contact);
+
+  await Contact.deleteOne({ _id: id });
+
+  res.status(204).send();
 });
 
 module.exports = {
