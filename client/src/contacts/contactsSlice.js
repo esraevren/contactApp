@@ -1,10 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {  toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 import {
   getContactsService,
   addContactService,
   getContactByIdService,
   deleteContactByIdService,
+  editContactByIdService
 } from "../services/apiService";
 
 export const getContactsAsync = createAsyncThunk(
@@ -33,11 +37,36 @@ export const addContactAsync = createAsyncThunk(
 export const deleteContactAsync = createAsyncThunk("/contacts/deleteContactAsync",async (id) => {
   try {
     const response = await deleteContactByIdService(id);
+    if(response.status === 204) {
+      toast.success('User deleted succesfully ! ')
+    }
     return response.data;
   } catch (err) {
     return err.message;
   }
 } )
+
+
+
+export const getContactAsync = createAsyncThunk("/contacts/getContactAsync",async (id) => {
+  try {
+    const response = await getContactByIdService(id);
+    
+    return response.data;
+  } catch (err) {
+    return err.message;
+  }
+})
+
+export const editContactAsync = createAsyncThunk("/contacts/editContactAsync",async ( id) => {
+  try {
+    const response = await editContactByIdService( id);
+    console.log(response.data)
+    return response.data;
+  } catch (err) {
+    return err.message;
+  }
+})
 
 
 

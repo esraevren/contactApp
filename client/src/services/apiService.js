@@ -16,6 +16,10 @@ export const getContactByIdService = (contactId) => {
   return fetcher.get(`/contacts/${contactId}`);
 };
 
+export const editContactByIdService= ( contactId) => {
+  return fetcher.put(`/contacts/${contactId}`);
+}
+
 export const deleteContactByIdService = async (contactId) => {
   return fetcher.delete(`/contacts/${contactId}`);
 };

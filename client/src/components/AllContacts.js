@@ -2,28 +2,37 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DataTable from "react-data-table-component";
 import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { getContactsAsync, deleteContactAsync } from "../contacts/contactsSlice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import { Link, useNavigate } from "react-router-dom";
+import {
+  getContactsAsync,
+  deleteContactAsync,
+  getContactAsync,
+} from "../contacts/contactsSlice";
 
 const AllContacts = () => {
   const state = useSelector((states) => states.contacts);
-  
+
   const dispatch = useDispatch();
-  const id = useSelector(state => state.contacts.items)
-  
+  const id = useSelector((state) => state.contacts.items);
 
   useEffect(() => {
     dispatch(getContactsAsync());
   }, []);
 
   const handleDelete = async (id) => {
-     if(window.confirm('Are you sure ? '))  {
-      await dispatch(deleteContactAsync(id))
-    
-   
+    if (window.confirm("Are you sure ? ")) {
+      await dispatch(deleteContactAsync(id));
+    }
+  };
 
-  } }
-
+  const navigate = useNavigate();
+  const handleEdit = async (id) => {
+    await dispatch(getContactAsync(id));
+    navigate(`/edit/${id}`);
+  };
 
   const columns = [
     {
@@ -51,10 +60,8 @@ const AllContacts = () => {
       name: "Edit",
       selector: (row) => (
         <>
-         {/* {row._id} */}
-         <div>{row._id}</div>
-          <Button>Edit</Button>
-          <Button onClick={()=>handleDelete(row._id)}>Delete</Button>
+          <Button onClick={() => handleEdit(row._id)}>Edit</Button>
+          <Button onClick={() => handleDelete(row._id)}>Delete</Button>
         </>
       ),
     },
@@ -85,10 +92,8 @@ const AllContacts = () => {
         <Link to="/add" className="btn btn-primary">
           Add Contact
         </Link>
-
-        {state.status === "loading" && (
-          <span>Loading...</span>
-        )}
+        <ToastContainer />
+        {state.status === "loading" && <span>Loading...</span>}
         {state.status === "fulfilled" && (
           <DataTable columns={columns} data={state.items} pagination />
         )}
