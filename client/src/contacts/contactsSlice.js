@@ -30,6 +30,15 @@ export const addContactAsync = createAsyncThunk(
   }
 );
 
+export const deleteContactAsync = createAsyncThunk("/contacts/deleteContactAsync",async (id) => {
+  try {
+    const response = await deleteContactByIdService(id);
+    return response.data;
+  } catch (err) {
+    return err.message;
+  }
+} )
+
 
 
 export const contactsSlice = createSlice({
@@ -59,9 +68,16 @@ export const contactsSlice = createSlice({
       state.items.push(action.payload);
       return state;
     },
+
+    //delete contacts 
+    [deleteContactAsync.fulfilled] :(state, action) => {
+      const id= action.payload;
+      const index = state.items.findIndex(item => item.id === id )
+      state.items.splice(index, 1)
+    }
   },
 });
 
-// export const allContacts= (state) => state.contacts.items
+
 
 export default contactsSlice.reducer;

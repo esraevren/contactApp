@@ -37,7 +37,6 @@ const AddContact = () => {
     setStatus("loading")
     setError('')
     await dispatch (addContactAsync(contact))
-  
     setStatus("fulfilled")
   
   } catch(error) {

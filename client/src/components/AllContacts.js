@@ -3,36 +3,27 @@ import { useDispatch, useSelector } from "react-redux";
 import DataTable from "react-data-table-component";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { getContactsAsync } from "../contacts/contactsSlice";
+import { getContactsAsync, deleteContactAsync } from "../contacts/contactsSlice";
 
 const AllContacts = () => {
   const state = useSelector((states) => states.contacts);
+  
   const dispatch = useDispatch();
+  const id = useSelector(state => state.contacts.items)
+  
 
   useEffect(() => {
     dispatch(getContactsAsync());
   }, []);
 
-  // const filterData = (e) => {
-  //   if(e.target.value !== ''){
-  //     setValue(e.target.value);
-  //     const filterTable =
-  //   }
-  // }
+  const handleDelete = async (id) => {
+     if(window.confirm('Are you sure ? '))  {
+      await dispatch(deleteContactAsync(id))
+    
+   
 
-  // const filteredData= contacts.filter(
-  //   items => items.some(item => item.toString().toLocaleLowerCase('TR').includes(search.toLocaleLowerCase('TR')))
-  // )
+  } }
 
-  // useEffect(() => {
-  //   getAllContacts();
-  // }, []);
-
-  // const getAllContacts = async () => {
-  //   let response = await getContacts();
-  //   setContacts(response.data);
-  //   // console.log(response.data);
-  // };
 
   const columns = [
     {
@@ -60,9 +51,10 @@ const AllContacts = () => {
       name: "Edit",
       selector: (row) => (
         <>
-          {" "}
+         {/* {row._id} */}
+         <div>{row._id}</div>
           <Button>Edit</Button>
-          <Button>Delete</Button>{" "}
+          <Button onClick={()=>handleDelete(row._id)}>Delete</Button>
         </>
       ),
     },
