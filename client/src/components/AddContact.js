@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addContactAsync } from "../contacts/contactsSlice";
+import { useNavigate } from "react-router-dom";
 
 const defaultValue = {
   name: "",
@@ -17,7 +18,7 @@ const AddContact = () => {
   const { name, lastName, email, phoneNumber, birthDate } = contact;
 
   const dispatch = useDispatch()
-
+  const navigate = useNavigate()
 
   const handleInputChange= (e)=> {
      let {name, value }= e.target;
@@ -38,6 +39,8 @@ const AddContact = () => {
     setError('')
     await dispatch (addContactAsync(contact))
     setStatus("fulfilled")
+    navigate("/")
+    
   
   } catch(error) {
     setStatus("rejected")
