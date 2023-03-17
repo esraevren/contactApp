@@ -1,14 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import {  toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   getContactsService,
   addContactService,
   getContactByIdService,
   deleteContactByIdService,
-  editContactByIdService
+  editContactByIdService,
 } from "../services/apiService";
 
 export const getContactsAsync = createAsyncThunk(
@@ -34,41 +33,47 @@ export const addContactAsync = createAsyncThunk(
   }
 );
 
-export const deleteContactAsync = createAsyncThunk("/contacts/deleteContactAsync",async (id) => {
-  try {
-    const response = await deleteContactByIdService(id);
-    if(response.status === 204) {
-      toast.success('User deleted succesfully ! ')
+export const deleteContactAsync = createAsyncThunk(
+  "/contacts/deleteContactAsync",
+  async (id) => {
+    try {
+      const response = await deleteContactByIdService(id);
+      if (response.status === 204) {
+        toast.success("User deleted succesfully ! ");
+      }
+      return response.data;
+    } catch (err) {
+      return err.message;
     }
-    return response.data;
-  } catch (err) {
-    return err.message;
   }
-} )
+);
 
+export const getContactAsync = createAsyncThunk(
+  "/contacts/getContactAsync",
+  async (id) => {
+    try {
+      const response = await getContactByIdService(id);
 
+      return response.data;
+    } catch (err) {
+      return err.message;
+    }
+  }
+);
 
-export const getContactAsync = createAsyncThunk("/contacts/getContactAsync",async (id) => {
-  try {
-    const response = await getContactByIdService(id);
+export const editContactAsync = createAsyncThunk(
+  "/contacts/editContactAsync",
+  async ( {id, contact}) => {
+    try {
+      console.log( "contact", contact )
+      const response = await editContactByIdService(id, contact);
     
-    return response.data;
-  } catch (err) {
-    return err.message;
+      return response.data;
+    } catch (err) {
+      return err.message;
+    }
   }
-})
-
-export const editContactAsync = createAsyncThunk("/contacts/editContactAsync",async ( id) => {
-  try {
-    const response = await editContactByIdService( id);
-    console.log(response.data)
-    return response.data;
-  } catch (err) {
-    return err.message;
-  }
-})
-
-
+);
 
 export const contactsSlice = createSlice({
   name: "contacts",
@@ -98,15 +103,26 @@ export const contactsSlice = createSlice({
       return state;
     },
 
-    //delete contacts 
-    [deleteContactAsync.fulfilled] :(state, action) => {
+    //delete contacts
+    [deleteContactAsync.fulfilled]: (state, action) => {
       const id= action.payload;
       const index = state.items.findIndex(item => item.id === id )
       state.items.splice(index, 1)
-    }
+    },
+
+    //edit contacts 
+    [editContactAsync.fulfilled]: (state, action) => {
+        const findByIndex = state.items.findIndex((item) => item.id === action.payload.id);
+
+        state.items[findByIndex] = {
+          ...state.items[findByIndex],
+          ...action.payload
+        }
+
+        return state;
+    },
+
   },
 });
-
-
 
 export default contactsSlice.reducer;
