@@ -17,7 +17,7 @@ const EditContact = () => {
   const [error, setError] = useState("");
   const [status, setStatus] = useState("idle");
   const { name, lastName, email, phoneNumber, birthDate } = contact;
-  let contactData = contact;
+  
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -68,15 +68,7 @@ const EditContact = () => {
       </nav>
       <br></br>
       <section className="contact">
-        <div className="headings">
-          <div className="divider">
-            <div className="darkline"></div>
-            <div>
-              <i className="fa fa-star fa-star-dark" aria-hidden="true"></i>
-            </div>
-            <div className="darkline"></div>
-          </div>
-        </div>
+      
 
         {error && <h3>{error}</h3>}
 
@@ -139,7 +131,7 @@ const EditContact = () => {
               name="phoneNumber"
               required
             />
-            <span>phoneNumber number</span>
+            <span>Phone Number</span>
           </label>
           <button type="submit" disabled={status === "loading"}>
             Update

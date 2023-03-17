@@ -88,7 +88,7 @@ form {
   border-radius: 5px;
 }
 
-form > button {
+.contact> form > button {
   background-color: #1cbb9c;
   color: #fff;
   padding: 3%;
@@ -109,7 +109,7 @@ label {
   opacity: 0.8;
   border-bottom: 1px solid gray;
 }
-input {
+  input {
   height: 30px;
   font-size: larger;
   width: 100%;
@@ -148,5 +148,14 @@ input:not(:placeholder-shown) + span {
   transform: translateY(-25px);
 }
 
-
+#contactSearch {
+  border:  1px solid;
+  padding: 5px;
+  border-radius: 4%;
+  
+}
+.menu ::placeholder {
+  opacity: 1;
+  
+}
 
