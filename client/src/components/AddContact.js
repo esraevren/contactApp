@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-
+import { BsTelephonePlus } from "react-icons/bs";
+import { BiPhoneCall } from "react-icons/bi";
 import { useDispatch } from "react-redux";
 import { addContactAsync } from "../contacts/contactsSlice";
 import { useNavigate } from "react-router-dom";
-
 
 const defaultValue = {
   name: "",
@@ -14,90 +14,127 @@ const defaultValue = {
 };
 
 const AddContact = () => {
- const [contact, setContact] = useState(defaultValue);
- const [error, setError]= useState('');
- const [status, setStatus] = useState("idle");
+  const [contact, setContact] = useState(defaultValue);
+  const [error, setError] = useState("");
+  const [status, setStatus] = useState("idle");
   const { name, lastName, email, phoneNumber, birthDate } = contact;
 
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleInputChange= (e)=> {
-     let {name, value }= e.target;
-     setContact({...contact , [name]: value})
-  }
-  
+  const handleInputChange = (e) => {
+    let { name, value } = e.target;
+    setContact({ ...contact, [name]: value });
+  };
+
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if( !name || !lastName || !email  || !phoneNumber || !birthDate) {
-    setError('All inputs are required ! ');
-    return;
-  }
+    if (!name || !lastName || !email || !phoneNumber || !birthDate) {
+      setError("All inputs are required ! ");
+      return;
+    }
 
-  try {
+    try {
+      setStatus("loading");
+      setError("");
+      await dispatch(addContactAsync(contact));
+      setStatus("fulfilled");
 
-    setStatus("loading")
-    setError('')
-    await dispatch (addContactAsync(contact))
-    setStatus("fulfilled")
-    
-    navigate("/")
-    
-  
-  } catch(error) {
-    setStatus("rejected")
-    setError(error.message);
-  }
-
-
-  }
-  
+      navigate("/");
+    } catch (error) {
+      setStatus("rejected");
+      setError(error.message);
+    }
+  };
 
   return (
     <div>
-      <nav className="navbar kanit">
-        <div className="logo">Contact App</div>
+      <nav className="navbar ">
+        <div className="logo">
+          <BiPhoneCall /> Contact App
+        </div>
       </nav>
-      <br></br>
+
       <section className="contact">
-        <div className="headings">
-          <div className="divider">
+        {error && <h3>{error}</h3>}
+
+        <form onSubmit={handleSubmit}>
+          <h2>Add New Contact</h2>
+          <div className="divider mb-5">
             <div className="darkline"></div>
-            <div>
-              <i className="fa fa-star fa-star-dark" aria-hidden="true"></i>
+            <div className="phoneimg">
+              <BsTelephonePlus />{" "}
             </div>
             <div className="darkline"></div>
           </div>
-        </div>
-
-
-        {error && <h3>{error}</h3>}
-        
-
-        <form onSubmit={handleSubmit}>
           <label htmlFor="name">
-            <input type="text" id="name" placeholder="Name" value={name} name='name' onChange={handleInputChange} required />
+            <input
+              type="text"
+              id="name"
+              placeholder="Name"
+              value={name}
+              name="name"
+              onChange={handleInputChange}
+              required
+            />
             <span>Name</span>
           </label>
           <label htmlFor="lastName">
-            <input type="text" id="lastName" placeholder="lastName" name='lastName' onChange={handleInputChange} value={lastName} required />
+            <input
+              type="text"
+              id="lastName"
+              placeholder="lastName"
+              name="lastName"
+              onChange={handleInputChange}
+              value={lastName}
+              required
+            />
             <span>Last name</span>
-
           </label>
           <label htmlFor="email">
-            <input type="email" id="email" placeholder="Email" onChange={handleInputChange}  value={email} name='email'  required />
+            <input
+              type="email"
+              id="email"
+              placeholder="Email"
+              onChange={handleInputChange}
+              value={email}
+              name="email"
+              required
+            />
             <span>Email addres </span>
           </label>
-          <label htmlFor="phoneNumber">
-            <input type="text" id="phoneNumber" placeholder="phoneNumber" onChange={handleInputChange} value={birthDate}  name='birthDate' required />
-            <span>Birth Date</span>
+          <label htmlFor="birthDate">
+            <input
+              type="text"
+              id="birthDate"
+              placeholder="birthDate"
+              onChange={handleInputChange}
+              value={birthDate}
+              name="birthDate"
+              required
+            />
+            <span>Birth Date (dd.mm.yyyy) </span>
           </label>
           <label htmlFor="phoneNumber">
-            <input type="text" id="phoneNumber" placeholder="phoneNumber" onChange={handleInputChange}  value={phoneNumber}  name='phoneNumber' required />
-            <span>phoneNumber number</span>
+            <input
+              type="text"
+              id="phoneNumber"
+              placeholder="phoneNumber"
+              onChange={handleInputChange}
+              value={phoneNumber}
+              name="phoneNumber"
+              required
+            />
+            <span>Phone Number </span>
           </label>
-          <button type="submit" disabled={status === "loading"}>Save</button>
+          <button
+            type="submit"
+            disabled={status === "loading"}
+            className="btn btn-info "
+          >
+            Save
+          </button>
         </form>
       </section>
     </div>

@@ -88,16 +88,7 @@ form {
   border-radius: 5px;
 }
 
-.contact> form > button {
-  background-color: #1cbb9c;
-  color: #fff;
-  padding: 3%;
-  border-radius: 10px;
-  border: none;
-  margin-inline-end: auto;
-  margin-top: 10px;
-  font-size: large;
-}
+
 
 label {
   width: 100%;
@@ -105,7 +96,7 @@ label {
   padding-bottom: 20px;
   position: relative;
   color: #293446;
-  font-size: 25px;
+  font-size: 15px;
   opacity: 0.8;
   border-bottom: 1px solid gray;
 }
@@ -159,3 +150,22 @@ input:not(:placeholder-shown) + span {
   
 }
 
+
+.divider {
+  display: flex;
+  flex-direction: row;
+}
+
+
+.darkline {
+  margin: auto;
+  width: 120px;
+  height: 0.25rem;
+  background-color: #54b4d4;
+  border-radius: 10px;
+}
+
+
+.phoneimg > svg {
+  font-size: 2em;
+}

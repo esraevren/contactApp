@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { BiPhoneCall } from "react-icons/bi";
+import { BsTelephonePlus } from "react-icons/bs";
 import { getContactAsync, editContactAsync } from "../contacts/contactsSlice";
 import { useNavigate } from "react-router-dom";
 const defaultValue = {
@@ -17,7 +18,6 @@ const EditContact = () => {
   const [error, setError] = useState("");
   const [status, setStatus] = useState("idle");
   const { name, lastName, email, phoneNumber, birthDate } = contact;
-  
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -25,7 +25,6 @@ const EditContact = () => {
   const handleInputChange = (e) => {
     let { name, value } = e.target;
     setContact({ ...contact, [name]: value });
-  
   };
   const { id } = useParams();
 
@@ -35,7 +34,7 @@ const EditContact = () => {
 
   const loadContactDetail = async (id) => {
     const response = await dispatch(getContactAsync(id));
-   
+
     setContact(response.payload);
   };
 
@@ -50,8 +49,8 @@ const EditContact = () => {
     try {
       setStatus("loading");
       setError("");
-    
-      await dispatch(editContactAsync({id, contact}))
+
+      await dispatch(editContactAsync({ id, contact }));
       setStatus("fulfilled");
 
       navigate("/");
@@ -64,15 +63,24 @@ const EditContact = () => {
   return (
     <div>
       <nav className="navbar">
-        <div className="logo"> <BiPhoneCall />  Contact App</div>
+        <div className="logo">
+          {" "}
+          <BiPhoneCall /> Contact App
+        </div>
       </nav>
       <br></br>
       <section className="contact">
-      
-
         {error && <h3>{error}</h3>}
 
         <form onSubmit={handleSubmit}>
+          <h2>Edit Contact</h2>
+          <div className="divider mb-5">
+            <div className="darkline"></div>
+            <div className="phoneimg">
+              <BsTelephonePlus />{" "}
+            </div>
+            <div className="darkline"></div>
+          </div>
           <label htmlFor="name">
             <input
               type="text"
@@ -133,7 +141,11 @@ const EditContact = () => {
             />
             <span>Phone Number</span>
           </label>
-          <button type="submit" disabled={status === "loading"}>
+          <button
+            type="submit"
+            disabled={status === "loading"}
+            className="btn btn-info mb-4"
+          >
             Update
           </button>
         </form>
