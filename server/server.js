@@ -1,5 +1,6 @@
 const express = require("express");
 const connectDb=require("./config/dbConnection")
+const path = require('path')
 require("dotenv").config();
 const cors= require('cors')
 
@@ -13,6 +14,7 @@ app.use('/api/contacts', require('./routes/contactRoutes'));
 app.use(errorHandler)
 
 
+app.use('/cdn', express.static(path.join(__dirname, 'cdn')))
 
 
 app.listen(8000, () => {
